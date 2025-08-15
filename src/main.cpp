@@ -43,11 +43,10 @@ double compute_current_pixel(double x, double y, double t){
     t *= 100;  // Modify t for the texture calculation
     
     double v = floor(x0*r + t) * floor(y0*r - t);
-    r = v - floor((v - 7.5) / 16.0) * 16.0;
+    r = v - floor((v - 10.0) / 16.0) * 16.0;
     //r = (v%16);
     
     double result = r *z0 * z0 * 0.0125;
-    
     return result;
 }
 
