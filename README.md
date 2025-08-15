@@ -6,6 +6,11 @@ as we get closer to 0, our horizon line, our distance gets really large (perspec
 
 Color is used to illustrate this effect. We move from red to blue from the top and bottom to the center of the screen. Near the floor / ceiling, the colors have greater intensity; as we move to the center they shift quickly to a uniform blue color, proportional to the increase in "distance"
 
+<img src="" alt="Alt text" style="width: 50%; height: auto;">
+
+
+You can view this in the browser 
+1. [View in Browser](https://hbeadles.github.io/floor_ceiling_perspective_simulation/floor_ceil_perspective.html)
 
 ### Credit - EvalDraw - Ken Silverman
 
@@ -70,7 +75,10 @@ From there, we compute a few things:
 4. Next is computing the horizon line, which is done with:
    1.        double r = 32.0 / fabs(z0);
    2. As we get closer to the horizon, note that z0 equals y1, so as y gets closer to 0, distance grows massively
-5. Next we create a pixel grid on the screen, computing a simple area
+5. Next we create bands of color across the screen, done with the following: 
    1.        double v = floor(x0*r + t) * floor(y0*r - t);
-   2. Where $(x+t)(y+t)$ can be viewed as a square  
+   2.        r = v - floor((v - 7.5) / 16.0) * 16.0
+   3.  This code does a form of ordered dithering, [Reference](https://en.wikipedia.org/wiki/Ordered_dithering). Essentially we compute a threshold map that causes pixels to change color based on their position
+and their distance from the horizon line. The result is a banding effect that gives the illusion of depth. Honestly, this is a brilliant piece of code. 
+
 

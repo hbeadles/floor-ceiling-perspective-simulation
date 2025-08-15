@@ -61,7 +61,8 @@ double compute_current_pixel(double x, double y, double t){
 Uint32 mapToBlueRedGradient(double value) {
     /**
      * Hacky thresholding to map the value to a color.
-     * If the
+     * Basically we're taking the value and mapping it to a color.
+     * If its below .10,
      ***/
     if (value <= 0) value = 0;
     if (value >= 1) value = 1;
@@ -193,7 +194,6 @@ int main(int argc, char* argv[]){
     // Traditional main loop for desktop
     while(g_running){
         main_loop();
-        SDL_Delay(16);  // ~60 FPS
     }
 #endif
 
@@ -205,89 +205,3 @@ int main(int argc, char* argv[]){
     return EXIT_SUCCESS;
 }
 
-
-
-//
-// /**
-//  * The main function initializes SDL, creates a texture, and renders a dynamic
-//  * visualization based on the compute_current_pixel function.
-//  *
-//  * @param argc The number of command-line arguments.
-//  * @param argv The array of command-line arguments.
-//  * @return EXIT_SUCCESS on successful execution, EXIT_FAILURE otherwise.
-//  */
-// int main(int argc, char* argv[]){
-//     if(!initSDL("Floor Ceil Perspective")){
-//         printf("Failed to initialize SDL\n");
-//         return EXIT_FAILURE;
-//     }
-//
-//     bool success = true;
-//     app.debug = false;
-//     SDL_Texture* texture = SDL_CreateTexture(
-//         app.renderer,
-//         SDL_PIXELFORMAT_ARGB8888,
-//         SDL_TEXTUREACCESS_STREAMING,
-//         SCREEN_WIDTH,
-//         SCREEN_HEIGHT
-//     );
-//
-//     auto coord = [](float value, float scale, float shift) {
-//         return (value / (double) SCREEN_WIDTH) * scale + shift;
-//     };
-//
-//     if(!texture){
-//         printf("Failed to create texture\n");
-//         return EXIT_FAILURE;
-//     }
-//
-//     SDL_Event event;
-//     double t = 0.0;
-//     printf("Value of min x: %f, max x: %f\n", coord(0, 2.0, -1.0), coord(SCREEN_WIDTH, 2.0, -1.0));
-//     printf("Value of min y: %f, max y: %f\n", coord(0, 2.0, -1.0), coord(SCREEN_HEIGHT, 2.0, -1.0));
-//     while(success){
-//         t = SDL_GetTicks() * 0.001;
-//         //t = t / 1000;
-//         while(SDL_PollEvent(&event)){
-//             if(event.type == SDL_QUIT){
-//                 success = false;
-//             }
-//         }
-//         SDL_RenderClear(app.renderer);
-//         void* pixels;
-//         int pitch;
-//         if(SDL_LockTexture(texture, nullptr, &pixels, &pitch) == 0){
-//             //Write directly to pixel buffer
-//             auto* pixel_buffer = (Uint32*) pixels;
-//             double min_value = INFINITY;
-//             double max_value = -INFINITY;
-//             for(int x = 0; x < SCREEN_WIDTH; x++){
-//                 for(int y = 0; y < SCREEN_HEIGHT; y++){
-//                     double nx = coord(x, 2.3, -1.0);
-//                     double ny = coord(y, 2.3, -1.0);
-//                     double color_value = compute_current_pixel(nx, ny, t);
-//                     // Update min/max
-//                     if (color_value < min_value) min_value = color_value;
-//                     if (color_value > max_value) max_value = color_value;
-//                     // Normalize the color value to 0-2 range
-//                     pixel_buffer[y * SCREEN_WIDTH + x] = mapToBlueRedGradient(color_value);
-//                  }
-//             }
-//             // Print min/max every 60 frames (about once per second at 60fps)
-//             static int frame_count = 0;
-//             if (app.debug) {
-//                 if (++frame_count % 60 == 0) {
-//                     printf("Min value: %f, Max value: %f, Range: %f\n", min_value, max_value, max_value - min_value);
-//                 }
-//             }
-//         }
-//         SDL_UnlockTexture(texture);
-//
-//         SDL_RenderCopy(app.renderer, texture, nullptr, nullptr);
-//         SDL_RenderPresent(app.renderer);
-//
-//         //SDL_Delay(16);
-//     }
-//
-//     return EXIT_SUCCESS;
-// }
