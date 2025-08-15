@@ -1,0 +1,20 @@
+#pragma once
+
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_mixer.h"
+#include "SDL_ttf.h"
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include <cmath>
+#include <cassert>
+#include <algorithm>
+#include <fstream>
+#include <vector>
+#include <iostream>
+#include <stdexcept>
+#include <unordered_map>
+#include <map>
+#include <base/defs.hpp>
+#include <base/structs.hpp>
