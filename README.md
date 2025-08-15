@@ -5,8 +5,9 @@ directly to a texture. The pixels are normalized on the screen, so from -1 to 1 
 as we get closer to 0, our horizon line, our distance gets really large (perspective). 
 
 Color is used to illustrate this effect. We move from red to blue from the top and bottom to the center of the screen. Near the floor / ceiling, the colors have greater intensity; as we move to the center they shift quickly to a uniform blue color, proportional to the increase in "distance"
-
-<img src="" alt="Alt text" style="width: 50%; height: auto;">
+<div style="text-align: center;">
+    <img src="output/output_sample.png" alt="Example Image" width="400px" height="400px">
+</div>
 
 
 You can view this in the browser 
@@ -78,8 +79,8 @@ From there, we compute a few things:
 5. Next we create bands of color across the screen, done with the following: 
    1.        double v = floor(x0*r + t) * floor(y0*r - t);
    2.        r = v - floor((v - 10.0) / 16.0) * 16.0
-   3.  This code does a form of ordered dithering, [Reference](https://en.wikipedia.org/wiki/Ordered_dithering). Essentially we compute a threshold map that causes pixels to change color based on their position
+   3.  This code does a form of ordered dithering, [Reference](https://en.wikipedia.org/wiki/Ordered_dithering). Essentially we compute a threshold map (to 16 distinct units) that causes pixels to change color based on their position
 and their distance from the horizon line. The result is a banding effect that gives the illusion of depth. Honestly, this is a brilliant piece of code. 
    4. You can experiment with this. Modifying $10.0$ will change the color bands. Changing $16.0$ will change the dithering size, either larger or smaller. 
-   5. What's happening is we're binning pixels into set discrete bins, which then repeat across the screen. As you get closer to horizon, x0 and y0 get closer to 0, and so our grid coordinates get repeated more frequently
+   5. What's happening is we're binning pixels into set discrete bins, which then repeat across the screen. As you get closer to horizon, x0 and y0 get closer to 0, and so our grid coordinates get repeated more frequently, which gives the illusion of smaller grids
 
