@@ -1,0 +1,58 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: latest
+
+      - name: Configure CMake for WebAssembly
+        run: |
+          emconfigure cmake -B build-web \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CXX_FLAGS="-s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_SDL_MIXER=2 -s USE_SDL_TTF=2" \
+            -DCMAKE_EXE_LINKER_FLAGS="-s WASM=1 -s USE_SDL=2 --preload-file assets"
+
+      - name: Build WebAssembly
+        run: emmake cmake --build build-web
+
+      - name: Create deployment directory
+        run: |
+          mkdir -p gh-pages
+          cp build-web/*.html gh-pages/
+          cp build-web/*.js gh-pages/
+          cp build-web/*.wasm gh-pages/
+          cp build-web/*.data gh-pages/ || true  # Optional, in case there are data files
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './gh-pages'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
