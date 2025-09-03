@@ -1,6 +1,6 @@
 ## Floor Ceiling Demonstration - SDL2
 
-This is a simple simulation of floor to ceiling perspective using SDL2. It draws colors on the screen in a grid pattern
+This is a simulation of floor to ceiling perspective using SDL2. It draws colors on the screen in a grid pattern
 directly to a texture. The pixels are normalized on the screen, so from -1 to 1 in the x and y directions. This means that,
 as we get closer to 0, our horizon line, our distance gets really large (perspective). 
 
@@ -11,7 +11,7 @@ Color is used to illustrate this effect. We move from red to blue from the top a
 
 
 You can view this in the browser 
-1. [View in Browser](https://hbeadles.github.io/floor_ceiling_perspective_simulation/floor_ceil_perspective.html)
+1. [View in Browser](https://hbeadles.github.io/floor-ceiling-perspective-simulation/floor_ceil_perspective.html)
 
 ### Credit - EvalDraw - Ken Silverman
 
